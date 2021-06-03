@@ -1,29 +1,31 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Home from '../views/Home.vue'
+
+const ShowBlogView = () => import('@/components/ShowBlogView')// 路由懒加载 使用该组件时不会加载其它的组件
+const AddBlogView = () => import('@/components/AddBlogView')
 
 Vue.use(VueRouter)
 
 const routes = [
   {
     path: '/',
-    name: 'Home',
-    component: Home
+    redirect: '/showBlog' // 重定向到show 选中高亮
   },
   {
-    path: '/about',
-    name: 'About',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
+    path: '/showBlog',
+    component: ShowBlogView
+  },
+  {
+    path: '/addBlog',
+    component: AddBlogView
   }
 ]
 
 const router = new VueRouter({
-  mode: 'history',
+  mode: 'hash',
   base: process.env.BASE_URL,
-  routes
+  routes,
+  linkActiveClass: 'active' // 定义选中时的类名
 })
 
 export default router
